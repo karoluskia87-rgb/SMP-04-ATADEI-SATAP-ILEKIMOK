@@ -1,0 +1,7 @@
+{
+  "name": "SMP 04 ATADEI SATAP ILEKIMOK - e-Rapor & SIAKAD",
+  "description": "Sistem Informasi Akademik & e-Rapor Cloud SMP 04 ATADEI SATAP ILEKIMOK dengan Input Nilai Kurikulum Merdeka, Supervisi Kepala Sekolah, dan Portal Orang Tua.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
