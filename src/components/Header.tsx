@@ -76,87 +76,54 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-1.5 sm:space-x-2">
             {currentUser && (
               <>
-                <nav className="flex bg-slate-100 p-1 rounded-xl border border-slate-200" aria-label="Role Switcher">
-                  {/* Admin Tab (if admin or demo allowed) */}
-                  {(currentUser.role === 'ADMIN') && (
-                    <button
-                      id="tab-admin"
-                      onClick={() => setActiveRole('ADMIN')}
-                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                        activeRole === 'ADMIN'
-                          ? 'bg-purple-600 text-white font-bold shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      }`}
-                      title="Kelola Akun, Username & Password"
-                    >
-                      <ShieldAlert className="w-4 h-4" />
-                      <span className="hidden lg:inline">Admin (Akun & Password)</span>
-                      <span className="lg:hidden">Admin</span>
-                    </button>
+                {/* Current Role Badge & Title */}
+                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-bold text-xs shadow-2xs ${
+                  currentUser.role === 'ADMIN'
+                    ? 'bg-purple-50 text-purple-800 border-purple-200'
+                    : currentUser.role === 'PRINCIPAL'
+                    ? 'bg-amber-50 text-amber-900 border-amber-300'
+                    : currentUser.role === 'TEACHER'
+                    ? 'bg-indigo-50 text-indigo-800 border-indigo-200'
+                    : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                }`}>
+                  {currentUser.role === 'ADMIN' && (
+                    <>
+                      <ShieldAlert className="w-4 h-4 text-purple-600" />
+                      <span>Panel Administrator</span>
+                    </>
                   )}
-
-                  {/* Kepala Sekolah Tab */}
-                  {(currentUser.role === 'PRINCIPAL' || currentUser.role === 'ADMIN') && (
-                    <button
-                      id="tab-principal"
-                      onClick={() => setActiveRole('PRINCIPAL')}
-                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                        activeRole === 'PRINCIPAL'
-                          ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      }`}
-                    >
-                      <ShieldCheck className="w-4 h-4" />
-                      <span className="hidden lg:inline">Kepala Sekolah</span>
-                      <span className="lg:hidden">Kepsek</span>
-                    </button>
+                  {currentUser.role === 'PRINCIPAL' && (
+                    <>
+                      <ShieldCheck className="w-4 h-4 text-amber-600" />
+                      <span>Portal Kepala Sekolah</span>
+                    </>
                   )}
-
-                  {/* Guru Tab */}
-                  {(currentUser.role === 'TEACHER' || currentUser.role === 'ADMIN') && (
-                    <button
-                      id="tab-teacher"
-                      onClick={() => setActiveRole('TEACHER')}
-                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                        activeRole === 'TEACHER'
-                          ? 'bg-white text-indigo-700 shadow-xs font-bold'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      }`}
-                    >
-                      <GraduationCap className="w-4 h-4" />
-                      <span className="hidden lg:inline">Dashboard Guru</span>
-                      <span className="lg:hidden">Guru</span>
-                    </button>
+                  {currentUser.role === 'TEACHER' && (
+                    <>
+                      <GraduationCap className="w-4 h-4 text-indigo-600" />
+                      <span>Dashboard Guru & Wali Kelas</span>
+                    </>
                   )}
-
-                  {/* Orang Tua Tab */}
-                  {(currentUser.role === 'PARENT' || currentUser.role === 'ADMIN') && (
-                    <button
-                      id="tab-parent"
-                      onClick={() => setActiveRole('PARENT')}
-                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                        activeRole === 'PARENT'
-                          ? 'bg-white text-indigo-700 shadow-xs font-bold'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                      }`}
-                    >
-                      <Users className="w-4 h-4" />
-                      <span className="hidden lg:inline">Portal Ortu</span>
-                      <span className="lg:hidden">Ortu</span>
-                    </button>
+                  {currentUser.role === 'PARENT' && (
+                    <>
+                      <Users className="w-4 h-4 text-emerald-600" />
+                      <span>Portal Orang Tua / Siswa</span>
+                    </>
                   )}
-                </nav>
+                </div>
 
-                {/* AI Assistant Button */}
-                <button
-                  id="btn-ai-assistant"
-                  onClick={onOpenAiHelper}
-                  title="Asisten AI Deskripsi Capaian Rapor"
-                  className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors cursor-pointer"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-                  <span>AI Rapor</span>
-                </button>
+                {/* AI Assistant Button (For Teachers & Principal) */}
+                {(currentUser.role === 'TEACHER' || currentUser.role === 'PRINCIPAL' || currentUser.role === 'ADMIN') && (
+                  <button
+                    id="btn-ai-assistant"
+                    onClick={onOpenAiHelper}
+                    title="Asisten AI Deskripsi Capaian Rapor"
+                    className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors cursor-pointer"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                    <span>AI Rapor</span>
+                  </button>
+                )}
 
                 {/* Mobile Notification Simulator Toggle */}
                 <button
