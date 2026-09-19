@@ -144,7 +144,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
     const saved = localStorage.getItem(`${LOCAL_STORAGE_KEY}_current_user`);
-    return saved ? JSON.parse(saved) : predefinedUsers[1]; // Default to Siti Rahmawati (Guru / Wali Kelas)
+    return saved ? JSON.parse(saved) : null; // Require login first
   });
 
   const [reportApproval, setReportApproval] = useState<ReportApproval>(() => {

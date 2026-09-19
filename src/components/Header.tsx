@@ -74,121 +74,109 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Role Navigation & User Bar */}
           <div className="flex items-center space-x-1.5 sm:space-x-2">
-            <nav className="flex bg-slate-100 p-1 rounded-xl border border-slate-200" aria-label="Role Switcher">
-              {/* Admin Tab */}
-              <button
-                id="tab-admin"
-                onClick={() => {
-                  setActiveRole('ADMIN');
-                  if (currentUser?.role !== 'ADMIN') {
-                    const adminUser = users.find((u) => u.role === 'ADMIN');
-                    if (adminUser) login(adminUser);
-                  }
-                }}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                  activeRole === 'ADMIN'
-                    ? 'bg-purple-600 text-white font-bold shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                }`}
-                title="Kelola Akun, Username & Password"
-              >
-                <ShieldAlert className="w-4 h-4" />
-                <span className="hidden lg:inline">Admin (Akun & Password)</span>
-                <span className="lg:hidden">Admin</span>
-              </button>
+            {currentUser && (
+              <>
+                <nav className="flex bg-slate-100 p-1 rounded-xl border border-slate-200" aria-label="Role Switcher">
+                  {/* Admin Tab (if admin or demo allowed) */}
+                  {(currentUser.role === 'ADMIN') && (
+                    <button
+                      id="tab-admin"
+                      onClick={() => setActiveRole('ADMIN')}
+                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                        activeRole === 'ADMIN'
+                          ? 'bg-purple-600 text-white font-bold shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                      }`}
+                      title="Kelola Akun, Username & Password"
+                    >
+                      <ShieldAlert className="w-4 h-4" />
+                      <span className="hidden lg:inline">Admin (Akun & Password)</span>
+                      <span className="lg:hidden">Admin</span>
+                    </button>
+                  )}
 
-              {/* Kepala Sekolah Tab */}
-              <button
-                id="tab-principal"
-                onClick={() => {
-                  setActiveRole('PRINCIPAL');
-                  if (currentUser?.role !== 'PRINCIPAL') {
-                    const kepsekUser = users.find((u) => u.role === 'PRINCIPAL');
-                    if (kepsekUser) login(kepsekUser);
-                  }
-                }}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                  activeRole === 'PRINCIPAL'
-                    ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                }`}
-              >
-                <ShieldCheck className="w-4 h-4" />
-                <span className="hidden lg:inline">Kepala Sekolah</span>
-                <span className="lg:hidden">Kepsek</span>
-              </button>
+                  {/* Kepala Sekolah Tab */}
+                  {(currentUser.role === 'PRINCIPAL' || currentUser.role === 'ADMIN') && (
+                    <button
+                      id="tab-principal"
+                      onClick={() => setActiveRole('PRINCIPAL')}
+                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                        activeRole === 'PRINCIPAL'
+                          ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                      }`}
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      <span className="hidden lg:inline">Kepala Sekolah</span>
+                      <span className="lg:hidden">Kepsek</span>
+                    </button>
+                  )}
 
-              {/* Guru Tab */}
-              <button
-                id="tab-teacher"
-                onClick={() => {
-                  setActiveRole('TEACHER');
-                  if (currentUser?.role !== 'TEACHER') {
-                    const guruUser = users.find((u) => u.role === 'TEACHER');
-                    if (guruUser) login(guruUser);
-                  }
-                }}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                  activeRole === 'TEACHER'
-                    ? 'bg-white text-indigo-700 shadow-xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                }`}
-              >
-                <GraduationCap className="w-4 h-4" />
-                <span className="hidden lg:inline">Dashboard Guru</span>
-                <span className="lg:hidden">Guru</span>
-              </button>
+                  {/* Guru Tab */}
+                  {(currentUser.role === 'TEACHER' || currentUser.role === 'ADMIN') && (
+                    <button
+                      id="tab-teacher"
+                      onClick={() => setActiveRole('TEACHER')}
+                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                        activeRole === 'TEACHER'
+                          ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                      }`}
+                    >
+                      <GraduationCap className="w-4 h-4" />
+                      <span className="hidden lg:inline">Dashboard Guru</span>
+                      <span className="lg:hidden">Guru</span>
+                    </button>
+                  )}
 
-              {/* Orang Tua Tab */}
-              <button
-                id="tab-parent"
-                onClick={() => {
-                  setActiveRole('PARENT');
-                  if (currentUser?.role !== 'PARENT') {
-                    const ortuUser = users.find((u) => u.role === 'PARENT');
-                    if (ortuUser) login(ortuUser);
-                  }
-                }}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                  activeRole === 'PARENT'
-                    ? 'bg-white text-indigo-700 shadow-xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                }`}
-              >
-                <Users className="w-4 h-4" />
-                <span className="hidden lg:inline">Portal Ortu</span>
-                <span className="lg:hidden">Ortu</span>
-              </button>
-            </nav>
+                  {/* Orang Tua Tab */}
+                  {(currentUser.role === 'PARENT' || currentUser.role === 'ADMIN') && (
+                    <button
+                      id="tab-parent"
+                      onClick={() => setActiveRole('PARENT')}
+                      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                        activeRole === 'PARENT'
+                          ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                      }`}
+                    >
+                      <Users className="w-4 h-4" />
+                      <span className="hidden lg:inline">Portal Ortu</span>
+                      <span className="lg:hidden">Ortu</span>
+                    </button>
+                  )}
+                </nav>
 
-            {/* AI Assistant Button */}
-            <button
-              id="btn-ai-assistant"
-              onClick={onOpenAiHelper}
-              title="Asisten AI Deskripsi Capaian Rapor"
-              className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-              <span>AI Rapor</span>
-            </button>
+                {/* AI Assistant Button */}
+                <button
+                  id="btn-ai-assistant"
+                  onClick={onOpenAiHelper}
+                  title="Asisten AI Deskripsi Capaian Rapor"
+                  className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                  <span>AI Rapor</span>
+                </button>
 
-            {/* Mobile Notification Simulator Toggle */}
-            <button
-              id="btn-mobile-simulator"
-              onClick={onOpenMobileSimulator}
-              title="Simulasi Notifikasi HP Orang Tua (WhatsApp)"
-              className={`relative flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
-                isMobileSimulatorOpen
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
-              }`}
-            >
-              <Smartphone className="w-4 h-4" />
-              <span className="hidden md:inline">HP Notif</span>
-              {unreadNotifCount > 0 && (
-                <span className="w-2 h-2 rounded-full bg-amber-400 absolute -top-0.5 -right-0.5 animate-pulse" />
-              )}
-            </button>
+                {/* Mobile Notification Simulator Toggle */}
+                <button
+                  id="btn-mobile-simulator"
+                  onClick={onOpenMobileSimulator}
+                  title="Simulasi Notifikasi HP Orang Tua (WhatsApp)"
+                  className={`relative flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
+                    isMobileSimulatorOpen
+                      ? 'bg-emerald-600 text-white border-emerald-600'
+                      : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                  }`}
+                >
+                  <Smartphone className="w-4 h-4" />
+                  <span className="hidden md:inline">HP Notif</span>
+                  {unreadNotifCount > 0 && (
+                    <span className="w-2 h-2 rounded-full bg-amber-400 absolute -top-0.5 -right-0.5 animate-pulse" />
+                  )}
+                </button>
+              </>
+            )}
 
             {/* User Account / Login Button */}
             <div className="relative">
